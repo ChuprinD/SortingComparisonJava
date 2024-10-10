@@ -7,7 +7,7 @@ import visualization.SortingVisualizer;
 public class SortingManager {
     private HashMap<String, Sorter> sortMap = new HashMap<>(); 
     public final Sorter[] allSorting = {new BubbleSort(), new InsertionSort(), new SelectionSort(),
-            new MergeSort(), new QuickSort(), new HeapSort() };
+            new MergeSort(), new QuickSort(), new HeapSort(), new ShellSort(), new RadixSort(), new TournamentSort()};
                                    
     private String currentArrayGenerator;
 

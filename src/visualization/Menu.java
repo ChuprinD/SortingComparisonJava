@@ -93,8 +93,11 @@ public class Menu {
     public void createDropList(int menuWidth, int menuHeight, JFrame frame, SortingManager sortingManager) {
         String[] options = ArrayGenerator.getOptions();
         JComboBox<String> comboBox = new JComboBox<>(options);
-        comboBox.setSelectedItem("Sorted Array");
-        sortingManager.setArrayGenerator("Sorted Array");
+
+        String defaultGenerator = "Random Array";
+        comboBox.setSelectedItem(defaultGenerator);
+        sortingManager.setArrayGenerator(defaultGenerator);
+        
         int comboBoxWidth = menuWidth / 2;
         int comboBoxHeight = menuHeight / 20;
         comboBox.setBounds(menuWidth / 2 - comboBoxWidth / 2, menuHeight / 6 - comboBoxHeight / 2, comboBoxWidth,

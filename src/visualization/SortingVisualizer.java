@@ -78,7 +78,6 @@ public class SortingVisualizer extends JPanel{
         frame.add(this);
         frame.setVisible(true);
         setBackground(Color.BLACK);
-        repaint();
     }
 
     public void highlightSwap(int i, int j) {

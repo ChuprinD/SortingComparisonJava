@@ -1,19 +1,12 @@
 package benchmarking;
 
-import sortings.BubbleSort;
-import sortings.HeapSort;
-import sortings.InsertionSort;
-import sortings.MergeSort;
-import sortings.QuickSort;
-import sortings.SelectionSort;
 import sortings.Sorter;
+import sortings.SortingManager;
 import utils.ArrayGenerator;
 import utils.ArrayUtils;
 
 public class SortingBenchmark {
     private Sorter currentSorter;
-    private Sorter[] allSorting = {new BubbleSort(), new InsertionSort(), new SelectionSort(),
-                                   new MergeSort(), new QuickSort(), new HeapSort() };
 
     public SortingBenchmark(Sorter sorter) {
         this.currentSorter = sorter;
@@ -41,10 +34,11 @@ public class SortingBenchmark {
     
     public void runGlobalBenchmark() {
 
-        int[] array = ArrayGenerator.generateSortedArray(100, 1000);
+        int[] array = ArrayGenerator.generateRandomArray(200, 1000);
+        SortingManager sortingManager = new SortingManager();
 
-        for (int i = 0; i < allSorting.length; i++) {
-            this.currentSorter = allSorting[i];
+        for (int i = 0; i < sortingManager.allSorting.length; i++) {
+            this.currentSorter = sortingManager.allSorting[i];
             runBenchmark(array);
         }
     }      
