@@ -6,7 +6,7 @@ import visualization.SortingVisualizer;
 public class QuickSort implements Sorter {
 
     private static final String name = "QuickSort";
-    public static final int visualizationDelay = 10;
+    public static final int visualizationDelay = 20;
     private SortingVisualizer visualizer = null;
 
     public QuickSort(SortingVisualizer visualizer) {

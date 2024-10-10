@@ -1,9 +1,13 @@
 package visualization;
 
 import sortings.SortingManager;
+import utils.ArrayGenerator;
 
 import javax.swing.JFrame;
 import javax.swing.SwingWorker;
+import javax.swing.plaf.FontUIResource;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.JComboBox;
 
 import java.awt.Button;
 import java.awt.Color;
@@ -11,6 +15,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.Font;
+
 
 public class Menu {
     
@@ -30,7 +36,11 @@ public class Menu {
         frame.setSize(menuWidth, menuHeight);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+       
         SortingManager sortingManager = new SortingManager();
+
+        createDropList(menuWidth, menuHeight, frame, sortingManager);
+
         int buttonWidth = menuWidth / 5;
         int buttonHeight = menuHeight / 9;
         generateSortButtons(buttonWidth, buttonHeight, sortingManager, frame);
@@ -56,7 +66,6 @@ public class Menu {
             } else {
                 curButtonX += buttonWidth + buttonWidth / 2;
             }
-            
 
             final int index = i;
 
@@ -67,7 +76,7 @@ public class Menu {
                     SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
                         @Override
                         protected Void doInBackground() throws Exception {
-                            
+
                             sortingManager.runSortByName(sortButtons[index].getLabel(), sortingManager.allSorting[index].getVisualizationDelay());
                             return null;
                         }
@@ -79,5 +88,30 @@ public class Menu {
             frame.add(sortButtons[i]);
         }
 
+    }
+    
+    public void createDropList(int menuWidth, int menuHeight, JFrame frame, SortingManager sortingManager) {
+        String[] options = ArrayGenerator.getOptions();
+        JComboBox<String> comboBox = new JComboBox<>(options);
+        comboBox.setSelectedItem("Sorted Array");
+        sortingManager.setArrayGenerator("Sorted Array");
+        int comboBoxWidth = menuWidth / 2;
+        int comboBoxHeight = menuHeight / 20;
+        comboBox.setBounds(menuWidth / 2 - comboBoxWidth / 2, menuHeight / 6 - comboBoxHeight / 2, comboBoxWidth,
+                comboBoxHeight);
+
+        comboBox.setFont(new FontUIResource("Arial", Font.BOLD, 16));
+        
+        DefaultListCellRenderer listRenderer = new DefaultListCellRenderer();
+        listRenderer.setHorizontalAlignment(DefaultListCellRenderer.CENTER);
+        comboBox.setRenderer(listRenderer);
+
+        comboBox.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                sortingManager.setArrayGenerator((String) comboBox.getSelectedItem());
+            }
+        });
+
+        frame.add(comboBox);
     }
 }

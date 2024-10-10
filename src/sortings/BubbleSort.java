@@ -6,7 +6,7 @@ import visualization.SortingVisualizer;
 public class BubbleSort implements Sorter {
 
     public static final String name = "BubbleSort";
-    public static final int visualizationDelay = 5;
+    public static final int visualizationDelay = 2;
     private SortingVisualizer visualizer = null;
 
     public BubbleSort(SortingVisualizer visualizer) {
