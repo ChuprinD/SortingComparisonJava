@@ -54,11 +54,11 @@ public class Menu {
     }
     
     public void generateSortButtons(int buttonWidth, int buttonHeight, SortingManager sortingManager, JFrame frame) {
-        sortButtons = new Button[sortingManager.getSortMap().size()];
+        sortButtons = new Button[SortingManager.getSortMap().size()];
         int curButtonX = buttonWidth / 2;
         int curButtonY = frame.getHeight() / 3;
         for (int i = 0; i < sortButtons.length; i++) {
-            sortButtons[i] = new Button(sortingManager.allSorting[i].getName());
+            sortButtons[i] = new Button(SortingManager.allSorting[i].getName());
             sortButtons[i].setBounds(curButtonX, curButtonY, buttonWidth, buttonHeight);
             if ((i + 1) % 3 == 0) {
                 curButtonX = buttonWidth / 2;
@@ -77,7 +77,7 @@ public class Menu {
                         @Override
                         protected Void doInBackground() throws Exception {
 
-                            sortingManager.runSortByName(sortButtons[index].getLabel(), sortingManager.allSorting[index].getVisualizationDelay());
+                            sortingManager.runSortByName(sortButtons[index].getLabel(), SortingManager.allSorting[index].getVisualizationDelay());
                             return null;
                         }
                     };
@@ -93,11 +93,10 @@ public class Menu {
     public void createDropList(int menuWidth, int menuHeight, JFrame frame, SortingManager sortingManager) {
         String[] options = ArrayGenerator.getOptions();
         JComboBox<String> comboBox = new JComboBox<>(options);
-
+        
         String defaultGenerator = "Random Array";
         comboBox.setSelectedItem(defaultGenerator);
         sortingManager.setArrayGenerator(defaultGenerator);
-        
         int comboBoxWidth = menuWidth / 2;
         int comboBoxHeight = menuHeight / 20;
         comboBox.setBounds(menuWidth / 2 - comboBoxWidth / 2, menuHeight / 6 - comboBoxHeight / 2, comboBoxWidth,

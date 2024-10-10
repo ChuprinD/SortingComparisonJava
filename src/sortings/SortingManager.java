@@ -5,8 +5,8 @@ import utils.ArrayGenerator;
 import visualization.SortingVisualizer;
 
 public class SortingManager {
-    private HashMap<String, Sorter> sortMap = new HashMap<>(); 
-    public final Sorter[] allSorting = {new BubbleSort(), new InsertionSort(), new SelectionSort(),
+    private static HashMap<String, Sorter> sortMap = new HashMap<>(); 
+    public static final Sorter[] allSorting = {new BubbleSort(), new InsertionSort(), new SelectionSort(),
             new MergeSort(), new QuickSort(), new HeapSort(), new ShellSort(), new RadixSort(), new TournamentSort()};
                                    
     private String currentArrayGenerator;
@@ -29,7 +29,7 @@ public class SortingManager {
         currentSort.sort(array);
     }
 
-    public HashMap<String, Sorter> getSortMap(){
+    public static HashMap<String, Sorter> getSortMap(){
         return sortMap;
     }
 }

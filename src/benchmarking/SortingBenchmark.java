@@ -35,10 +35,9 @@ public class SortingBenchmark {
     public void runGlobalBenchmark() {
 
         int[] array = ArrayGenerator.generateRandomArray(200, 1000);
-        SortingManager sortingManager = new SortingManager();
 
-        for (int i = 0; i < sortingManager.allSorting.length; i++) {
-            this.currentSorter = sortingManager.allSorting[i];
+        for (int i = 0; i < SortingManager.allSorting.length; i++) {
+            this.currentSorter = SortingManager.allSorting[i];
             runBenchmark(array);
         }
     }      
