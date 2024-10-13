@@ -2,10 +2,11 @@ package sortings;
 import java.util.HashMap;
 
 import utils.ArrayGenerator;
+import visualization.Menu;
 import visualization.SortingVisualizer;
 
 public class SortingManager {
-    private static HashMap<String, Sorter> sortMap = new HashMap<>(); 
+    private HashMap<String, Sorter> sortMap = new HashMap<>(); 
     public static final Sorter[] allSorting = {new BubbleSort(), new InsertionSort(), new SelectionSort(),
             new MergeSort(), new QuickSort(), new HeapSort(), new ShellSort(), new RadixSort(), new TournamentSort()};
                                    
@@ -21,15 +22,15 @@ public class SortingManager {
         }
     }
 
-    public void runSortByName(String name, int delay) {
+    public void runSortByName(String name, int delay, Menu menu) {
         int[] array = ArrayGenerator.generateArrayByName(this.currentArrayGenerator, 200, 1000);
-        SortingVisualizer visualizer = new SortingVisualizer(array, delay);
+        SortingVisualizer visualizer = new SortingVisualizer(array, delay, menu);
         Sorter currentSort = sortMap.get(name);
         currentSort.UpdateVisualizer(visualizer);
-        currentSort.sort(array);
+        new Thread(() -> currentSort.sort(array)).start();      
     }
 
-    public static HashMap<String, Sorter> getSortMap(){
+    public HashMap<String, Sorter> getSortMap(){
         return sortMap;
     }
 }

@@ -6,7 +6,7 @@ import visualization.SortingVisualizer;
 public class InsertionSort implements Sorter {
     
     private static final String name = "InsertionSort";
-    public static final int visualizationDelay = 10;
+    private static final int visualizationDelay = 10;
     private SortingVisualizer visualizer = null;
 
     public InsertionSort(SortingVisualizer visualizer) {
@@ -22,6 +22,9 @@ public class InsertionSort implements Sorter {
         int j;
 
         for (int i = 1; i < arraySize; i++) {
+            if (visualizer.isCancelled()) {
+                return;
+            }
             currentElement = array[i];
             j = i - 1;
 
@@ -31,6 +34,10 @@ public class InsertionSort implements Sorter {
             }
 
             array[j + 1] = currentElement;
+        }
+
+        if (this.visualizer != null) {
+            this.visualizer.clearHighlight();
         }
     }
 

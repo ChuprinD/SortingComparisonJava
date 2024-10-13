@@ -5,9 +5,9 @@ import visualization.SortingVisualizer;
 public class MergeSort implements Sorter {
 
     private static final String name = "MergeSort";
-    public static final int visualizationDelay = 10;
+    private static final int visualizationDelay = 10;
     private SortingVisualizer visualizer = null;
-
+    
     public MergeSort(SortingVisualizer visualizer) {
         this.visualizer = visualizer;
     }
@@ -18,6 +18,9 @@ public class MergeSort implements Sorter {
     @Override
     public void sort(int[] array) {
         mergeSort(array, 0, array.length - 1);
+        if (this.visualizer != null) {
+            this.visualizer.clearHighlight();
+        }
     }
     
     private void mergeSort(int[] array, int left, int right) {
@@ -55,6 +58,9 @@ public class MergeSort implements Sorter {
         }
 
         while (indexLeftArray < leftSize && indexRightArray < rightSize) {
+            if (visualizer.isCancelled()) {
+                return;
+            }
             if (leftArray[indexLeftArray] <= rightArray[indexRightArray]) {
                 array[indexMergedArray] = leftArray[indexLeftArray];
                 indexLeftArray++;      
@@ -70,6 +76,9 @@ public class MergeSort implements Sorter {
         }
 
         while (indexLeftArray < leftSize) {
+            if (visualizer.isCancelled()) {
+                return;
+            }
             array[indexMergedArray] = leftArray[indexLeftArray];
             indexLeftArray++;
             indexMergedArray++;
@@ -80,6 +89,9 @@ public class MergeSort implements Sorter {
         }
 
         while (indexRightArray < rightSize) {
+            if (visualizer.isCancelled()) {
+                return;
+            }
             array[indexMergedArray] = rightArray[indexRightArray];
             indexRightArray++;
             indexMergedArray++;
@@ -87,10 +99,6 @@ public class MergeSort implements Sorter {
                 visualizer.highlightSwap(indexMergedArray, -1);
                 visualizer.updateArray(array);
             }
-        }
-        
-        if (this.visualizer != null) {
-            this.visualizer.clearHighlight();
         }
     }
 

@@ -20,43 +20,50 @@ import java.awt.Font;
 
 public class Menu {
     
-    private Button[] sortButtons; 
+    private Button[] sortButtons;
+    private JFrame frame;
+    private int menuWidth;
+    private int menuHeight;
+    private int screenWidth;
+    private int screenHeight;
 
-    public void startMenu() {
-        JFrame frame = new JFrame("Menu");
+    public Menu() {
+        this.frame = new JFrame("Menu");
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        this.screenWidth = (int) screenSize.getWidth();
+        this.screenHeight = (int) screenSize.getHeight();
 
-        int screenWidth = (int) screenSize.getWidth();
-        int screenHeight = (int) screenSize.getHeight();
+        this.menuWidth = screenWidth / 3;
+        this.menuHeight = screenHeight / 2;
+    }
 
-        int menuWidth = screenWidth / 3;
-        int menuHeight = screenHeight / 2;
-
-        frame.setSize(menuWidth, menuHeight);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    public void start() {
+        this.frame.setSize(menuWidth, menuHeight);
+        this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
        
         SortingManager sortingManager = new SortingManager();
 
-        createDropList(menuWidth, menuHeight, frame, sortingManager);
+        createDropList(sortingManager);
 
-        int buttonWidth = menuWidth / 5;
-        int buttonHeight = menuHeight / 9;
-        generateSortButtons(buttonWidth, buttonHeight, sortingManager, frame);
+        generateSortButtons(sortingManager);
         
-        int frameX = (screenWidth - menuWidth) / 2;
-        int frameY = (screenHeight - menuHeight) / 2;
-        frame.setLocation(frameX, frameY);
-        frame.getContentPane().setLayout(null);
-        frame.getContentPane().setBackground(Color.BLACK);
-        frame.setVisible(true);
+        int frameX = (this.screenWidth - this.menuWidth) / 2;
+        int frameY = (this.screenHeight - this.menuHeight) / 2;
+        this.frame.setLocation(frameX, frameY);
+        this.frame.getContentPane().setLayout(null);
+        this.frame.getContentPane().setBackground(Color.BLACK);
+        this.frame.setVisible(true);
     }
     
-    public void generateSortButtons(int buttonWidth, int buttonHeight, SortingManager sortingManager, JFrame frame) {
-        sortButtons = new Button[SortingManager.getSortMap().size()];
+    public void generateSortButtons(SortingManager sortingManager) {
+        int buttonWidth = this.menuWidth / 5;
+        int buttonHeight = this.menuHeight / 9;
+
+        sortButtons = new Button[sortingManager.getSortMap().size()];
         int curButtonX = buttonWidth / 2;
-        int curButtonY = frame.getHeight() / 3;
+        int curButtonY = this.frame.getHeight() / 3;
         for (int i = 0; i < sortButtons.length; i++) {
             sortButtons[i] = new Button(SortingManager.allSorting[i].getName());
             sortButtons[i].setBounds(curButtonX, curButtonY, buttonWidth, buttonHeight);
@@ -69,37 +76,26 @@ public class Menu {
 
             final int index = i;
 
-            sortButtons[i].addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    frame.dispose();
-                    SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
-                        @Override
-                        protected Void doInBackground() throws Exception {
-
-                            sortingManager.runSortByName(sortButtons[index].getLabel(), SortingManager.allSorting[index].getVisualizationDelay());
-                            return null;
-                        }
-                    };
-                    worker.execute();
-                }
+            sortButtons[i].addActionListener(e -> {
+                this.frame.dispose();
+                sortingManager.runSortByName(sortButtons[index].getLabel(), SortingManager.allSorting[index].getVisualizationDelay(), this);
             });
 
-            frame.add(sortButtons[i]);
+            this.frame.add(sortButtons[i]);
         }
 
     }
     
-    public void createDropList(int menuWidth, int menuHeight, JFrame frame, SortingManager sortingManager) {
+    public void createDropList(SortingManager sortingManager) {
         String[] options = ArrayGenerator.getOptions();
         JComboBox<String> comboBox = new JComboBox<>(options);
         
         String defaultGenerator = "Random Array";
         comboBox.setSelectedItem(defaultGenerator);
         sortingManager.setArrayGenerator(defaultGenerator);
-        int comboBoxWidth = menuWidth / 2;
-        int comboBoxHeight = menuHeight / 20;
-        comboBox.setBounds(menuWidth / 2 - comboBoxWidth / 2, menuHeight / 6 - comboBoxHeight / 2, comboBoxWidth,
+        int comboBoxWidth = this.menuWidth / 2;
+        int comboBoxHeight = this.menuHeight / 20;
+        comboBox.setBounds(this.menuWidth / 2 - comboBoxWidth / 2, this.menuHeight / 6 - comboBoxHeight / 2, comboBoxWidth,
                 comboBoxHeight);
 
         comboBox.setFont(new FontUIResource("Arial", Font.BOLD, 16));
@@ -114,6 +110,6 @@ public class Menu {
             }
         });
 
-        frame.add(comboBox);
+        this.frame.add(comboBox);
     }
 }

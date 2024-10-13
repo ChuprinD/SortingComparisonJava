@@ -19,10 +19,13 @@ public class SortingVisualizer extends JPanel{
     private int highlightIndex1 = -1; 
     private int highlightIndex2 = -1;
     private int delay = 5;
+    private Menu menu;
+    private volatile boolean isSortingCancelled = false; 
 
-    public SortingVisualizer(int[] array, int delay) {
+    public SortingVisualizer(int[] array, int delay, Menu menu) {
         this.array = array;
         this.arraySize = array.length;
+        this.menu = menu;
         this.delay = delay;
         createWindow();
     }
@@ -52,6 +55,7 @@ public class SortingVisualizer extends JPanel{
             }
             Rectangle2D.Double rectangle = new Rectangle2D.Double((double) i * barWidth - 1, height - barHeight,
                     barWidth - 1, barHeight);
+            
             g2d.fill(rectangle);
         }
     }
@@ -64,9 +68,9 @@ public class SortingVisualizer extends JPanel{
         frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
+                isSortingCancelled = true;
                 frame.dispose();
-                Menu menu = new Menu();
-                menu.startMenu();
+                menu.start();
             }
         });
 
@@ -92,6 +96,10 @@ public class SortingVisualizer extends JPanel{
         repaint();
     }
 
+    public void setDelay(int delay) {
+        this.delay = delay;
+    }
+
     public void updateArray(int[] array) {
         this.array = array;
         repaint();
@@ -100,6 +108,10 @@ public class SortingVisualizer extends JPanel{
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean isCancelled() {
+        return isSortingCancelled;
     }
 
 }

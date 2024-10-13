@@ -6,7 +6,7 @@ import visualization.SortingVisualizer;
 public class HeapSort implements Sorter {
 
     private static final String name = "HeapSort";
-    public static final int visualizationDelay = 10;
+    private static final int visualizationDelay = 10;
     private SortingVisualizer visualizer = null;
 
     public HeapSort(SortingVisualizer visualizer) {
@@ -20,12 +20,22 @@ public class HeapSort implements Sorter {
         int arraySize = array.length;
 
         for (int i = arraySize / 2 - 1; i >= 0; i--) {
+            if (visualizer.isCancelled()) {
+                return;
+            }
             heapify(array, arraySize, i);
         }
 
         for (int i = arraySize - 1; i > 0; i--) {
+            if (visualizer.isCancelled()) {
+                return;
+            }
             ArrayUtils.swap(array, 0, i, visualizer);
             heapify(array, i, 0);
+        }
+
+        if (this.visualizer != null) {
+            this.visualizer.clearHighlight();
         }
 
     }

@@ -5,21 +5,25 @@ import visualization.SortingVisualizer;
 
 public class BubbleSort implements Sorter {
 
-    public static final String name = "BubbleSort";
-    public static final int visualizationDelay = 5;
+    private static final String name = "BubbleSort";
+    private static final int visualizationDelay = 5;
     private SortingVisualizer visualizer = null;
 
     public BubbleSort(SortingVisualizer visualizer) {
         this.visualizer = visualizer;
     }
 
-    public BubbleSort() {}
+    public BubbleSort() {
+    }
 
     @Override
     public void sort(int[] array) {
         int arraySize = array.length;
         boolean swaped = false;
         for (int i = 0; i < arraySize - 1; i++) {
+            if (visualizer.isCancelled()) {
+                return;
+            }
             swaped = false;
 
             for (int j = 0; j < arraySize - i - 1; j++) {
@@ -32,6 +36,9 @@ public class BubbleSort implements Sorter {
             if (swaped == false) {
                 break;
             }
+        }
+        if (this.visualizer != null) {
+            this.visualizer.clearHighlight();
         }
     }
 
@@ -49,4 +56,5 @@ public class BubbleSort implements Sorter {
     public int getVisualizationDelay() {
         return visualizationDelay;
     }
+
 }

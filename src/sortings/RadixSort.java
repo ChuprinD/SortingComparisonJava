@@ -6,7 +6,7 @@ import visualization.SortingVisualizer;
 public class RadixSort implements Sorter{
 
     private static final String name = "RadixSort";
-    public static final int visualizationDelay = 10;
+    private static final int visualizationDelay = 10;
     private SortingVisualizer visualizer = null;
 
     public RadixSort(SortingVisualizer visualizer) {
@@ -20,6 +20,9 @@ public class RadixSort implements Sorter{
         int maxElement = ArrayUtils.getMax(array);
         for (int exp = 1; maxElement / exp > 0; exp *= 10) {
             countingSortByDigit(array, exp, visualizer);
+        }
+        if (this.visualizer != null) {
+            this.visualizer.clearHighlight();
         }
     }
 
@@ -44,15 +47,14 @@ public class RadixSort implements Sorter{
         }
     
         for (int i = 0; i < arraySize; i++) {
+            if (visualizer.isCancelled()) {
+                return;
+            }
             array[i] = output[i];
             if (this.visualizer != null) {
                 visualizer.highlightSwap(i, -1);
                 visualizer.updateArray(array);
             }     
-        }
-
-        if (this.visualizer != null) {
-            this.visualizer.clearHighlight();
         }
     }
 

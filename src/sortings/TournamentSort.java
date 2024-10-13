@@ -6,7 +6,7 @@ import visualization.SortingVisualizer;
 
 public class TournamentSort implements Sorter{
     private static final String name = "TournamentSort";
-    public static final int visualizationDelay = 10;
+    private static final int visualizationDelay = 10;
     private SortingVisualizer visualizer = null;
 
     public TournamentSort(SortingVisualizer visualizer) {
@@ -30,6 +30,9 @@ public class TournamentSort implements Sorter{
         }
 
         for (int i = 0; i < arraySize; i++) {
+            if (visualizer.isCancelled()) {
+                return;
+            }
             array[i] = tree[0];
 
             int index = arraySize - 1;
@@ -67,5 +70,5 @@ public class TournamentSort implements Sorter{
     @Override
     public int getVisualizationDelay() {
         return visualizationDelay;
-    }  
+    }
 }

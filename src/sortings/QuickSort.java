@@ -6,7 +6,7 @@ import visualization.SortingVisualizer;
 public class QuickSort implements Sorter {
 
     private static final String name = "QuickSort";
-    public static final int visualizationDelay = 20;
+    private static final int visualizationDelay = 20;
     private SortingVisualizer visualizer = null;
 
     public QuickSort(SortingVisualizer visualizer) {
@@ -18,6 +18,9 @@ public class QuickSort implements Sorter {
     @Override
     public void sort(int[] array) {
         quickSort(array, 0, array.length - 1);
+        if (this.visualizer != null) {
+            this.visualizer.clearHighlight();
+        }
     }
 
     private void quickSort(int[] array, int left, int right) {
@@ -35,6 +38,9 @@ public class QuickSort implements Sorter {
         int smallerElementIndex = left - 1;
 
         for (int i = left; i <= right - 1; i++) {
+            if (visualizer.isCancelled()) {
+                return 0;
+            }
             if (array[i] < pivot) {
                 smallerElementIndex++;
                 ArrayUtils.swap(array, smallerElementIndex, i, visualizer);

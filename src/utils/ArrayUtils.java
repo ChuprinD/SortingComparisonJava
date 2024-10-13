@@ -16,7 +16,6 @@ public class ArrayUtils{
             visualizer.highlightSwap(index1, index2);
             swap(array, index1, index2);
             visualizer.updateArray(array);
-            visualizer.clearHighlight();
         }
     }
 
